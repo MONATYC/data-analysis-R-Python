@@ -1,7 +1,7 @@
 {
   "name": "R & Python Data Analysis",
   "image": "mcr.microsoft.com/devcontainers/python:3.9",
-  "postCreateCommand": "pip install jupyter statsmodels pandas numpy matplotlib seaborn && R -e \"install.packages(c('lme4', 'nlme', 'glmmTMB', 'emmeans', 'multcomp', 'MASS', 'ggplot2', 'patchwork'), repos='http://cran.rstudio.com/')\"",
+  "postCreateCommand": "pip install jupyter statsmodels pandas numpy matplotlib seaborn && Rscript -e \"install.packages(c('lme4', 'nlme', 'glmmTMB', 'emmeans', 'multcomp', 'MASS', 'ggplot2', 'patchwork'), repos='http://cran.rstudio.com/')\"",
   "extensions": [
     "ms-python.python",
     "ms-toolsai.jupyter",
