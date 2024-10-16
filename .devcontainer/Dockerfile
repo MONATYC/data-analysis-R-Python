@@ -9,21 +9,29 @@ ARG UPGRADE_PACKAGES="false"
 ARG USERNAME=docker
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
-COPY library-scripts/*.sh /tmp/library-scripts/
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" \
-    && apt-get -y install libzip-dev \
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-# [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    python3-pip \
-    libxt6 \
-    libzmq3-dev
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
+        zsh \
+        curl \
+        ca-certificates \
+        git \
+        libzip-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libxml2-dev \
+        python3-pip \
+        libxt6 \
+        libzmq3-dev \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
 
 RUN python3 -m pip install setuptools
 RUN python3 -m pip install radian
@@ -33,3 +41,6 @@ RUN R -e "IRkernel::installspec(user = FALSE)"
 
 # Asegúrate de que R esté en el PATH
 ENV PATH="/usr/local/lib/R/bin:${PATH}"
+
+# Switch to non-root user
+USER $USERNAME
