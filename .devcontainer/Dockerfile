@@ -22,7 +22,14 @@ RUN apt-get update \
     libssl-dev \
     libxml2-dev \
     python3-pip \
-    libxt6
+    libxt6 \
+    libzmq3-dev
 
 RUN python3 -m pip install setuptools
 RUN python3 -m pip install radian
+RUN python3 -m pip install jupyter
+RUN R -e "install.packages(c('IRkernel', 'devtools'), repos='http://cran.rstudio.com/')"
+RUN R -e "IRkernel::installspec(user = FALSE)"
+
+# Asegúrate de que R esté en el PATH
+ENV PATH="/usr/local/lib/R/bin:${PATH}"
