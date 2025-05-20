@@ -4,7 +4,8 @@ This repository contains two notebooks demonstrating how to fit linear mixed mod
 
 ## Contents
 - `Modelos_Lineales_Mixtos_en_Python.ipynb` – examples in Python with `statsmodels` and visualization libraries.
-- `Modelos_Lineales_Mixtos_en_R (1).ipynb` – examples in R using packages such as `lme4`, `glmmTMB` and others.
+- `Modelos_Lineales_Mixtos_en_R (1).ipynb` – examples in R using packages such as `lme4`, `glmmTMB` and others (Spanish).
+- `Linear_Mixed_Models_in_R.ipynb` – English version of the R notebook.
 
 ## Installation
 1. Clone this repository.
